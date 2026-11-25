@@ -21,6 +21,8 @@ npm run configurar
 
 `npm run configurar` te pregunta el usuario y la contraseña de **tu** MySQL, prueba la conexión, crea la base `proyecto3_entrenamiento` y escribe `back/.env`. Ese archivo es de cada una (cada máquina tiene su MySQL), por eso no se sube al repo: cada integrante corre este comando una vez.
 
+**Con XAMPP sin tocar:** su MySQL viene con usuario `root` sin contraseña, que es justo lo que trae `back/.env.example`. Alcanza con copiarlo (`copy .env.example .env`) y que el MySQL de XAMPP esté prendido. Si le pusiste contraseña, cambiá `DB_PASSWORD` (o usá `npm run configurar`).
+
 Después levantá el back. La primera vez crea las tablas y carga los datos de prueba:
 
 ```powershell
