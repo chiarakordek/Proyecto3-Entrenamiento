@@ -1,11 +1,5 @@
 node_modules
-dist
-dist-demo
-coverage
-*.local
-*.log
+.env
+.claude/
 .DS_Store
-.vscode/*
-!.vscode/extensions.json
-.idea
-*.tsbuildinfo
+*.log

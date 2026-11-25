@@ -1,0 +1,43 @@
+{
+  "name": "proyecto3-entrenamiento-back",
+  "private": true,
+  "version": "0.1.0",
+  "description": "API del MVP de entrenamiento físico (Proyecto 3)",
+  "scripts": {
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "start:dev": "nest start --watch",
+    "seed": "ts-node -r tsconfig-paths/register src/semilla/reiniciar.ts",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.2.12",
+    "@nestjs/config": "^4.0.4",
+    "@nestjs/core": "^11.2.12",
+    "@nestjs/jwt": "^11.0.2",
+    "@nestjs/platform-express": "^11.2.12",
+    "@nestjs/typeorm": "^11.0.3",
+    "bcryptjs": "^3.0.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.4",
+    "mysql2": "^3.24.6",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "sql.js": "^1.17.0",
+    "typeorm": "^0.3.31"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.24",
+    "@nestjs/testing": "^11.2.12",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.20.7",
+    "@types/supertest": "^6.0.3",
+    "jest": "^29.7.0",
+    "supertest": "^7.3.2",
+    "ts-jest": "^29.4.15",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "~5.7"
+  }
+}

@@ -1,55 +1,66 @@
-# Proyecto 3 – Front del MVP de entrenamiento físico
+# Proyecto 3 – MVP de entrenamiento físico
 
-Front para que el entrenador arme planes de 3 días y el alumno registre cada serie.
+El entrenador arma planes de 3 días y los asigna; el alumno registra cada serie y cierra con su esfuerzo y comentarios; el entrenador compara lo prescrito con lo real.
+
+```
+front/   React 19 + TypeScript + Vite + Tailwind   (la app)
+back/    NestJS 11 + TypeORM + MySQL               (la API: /api)
+```
+
+## Cómo levantarlo
+
+Necesitás Node 20 o más y un MySQL corriendo.
+
+**1. Back**
 
 ```powershell
+cd back
 npm install
-npm run dev      # http://localhost:5174
-npm test         # tests de dominio y de flujos
-npm run build
+copy .env.example .env
 ```
 
-## Qué hay
+Abrí `back/.env` y completá `DB_USERNAME` y `DB_PASSWORD` con los de tu MySQL (y `JWT_SECRET` con cualquier texto largo). La base `proyecto3_entrenamiento` se crea sola, con sus tablas y los datos de prueba, la primera vez que arranca:
 
-**Entrenador** (escritorio)
-- `/entrenador`: lista de alumnos con estado de adherencia (barra verde, amarilla o roja según días sin entrenar), próximo día, último feedback y alta de alumno.
-- `/entrenador/alumnos/:id`: objetivo y peso, plan activo en 3 columnas, sesiones con cumplimiento, mejores marcas.
-- `/entrenador/alumnos/:id/plan/nuevo` y `/entrenador/planes/:id`: editor del plan (3 días fijos, orden, series, reps o tiempo, carga, descanso y notas). Valida las reglas del dominio antes de asignar.
-- `/entrenador/alumnos/:id` también muestra el gráfico de evolución de cargas por ejercicio y los logros del alumno.
-- `/entrenador/sesiones/:id`: lo prescrito contra lo realizado, con el esfuerzo y el comentario del alumno, y un acceso para ajustar cargas o sustituir ejercicios del plan.
-- `/entrenador/catalogo`: catálogo precargado, con alta, edición y la ficha animada de cada ejercicio (punto todavía a definir con el cliente).
-
-**Alumno** (celular)
-- `/alumno/objetivo`: objetivo y peso actual. El peso ideal aparece solo si el objetivo es bajar de peso.
-- `/alumno`: el día que toca (con su composición por categoría y duración estimada), la semana y el recorrido del día.
-- `/alumno/sesion`: registro serie por serie con autocompletado, animación de cómo se hace, barra con discos, descanso con cuenta regresiva y cierre con esfuerzo y comentario. Al cerrar: logros, récords, trompeta y papelitos.
-- `/alumno/aprender`: guía de ejercicios por categoría con el mapa de colores del cuerpo y cada ejercicio animado.
-- `/alumno/plan`, `/alumno/historial`, `/alumno/resumen`: plan con la ficha de cada ejercicio, historial con logros, marcas y sesiones por mes, y resumen del mes con calendario (también a definir).
-
-## Diseño
-
-- **Colores de la presentación**: verde pino `#0F3D2E` y menta `#EAF5EE` de base; las categorías con los colores de la diapositiva 3 (tren superior verde, tren inferior azul petróleo, zona media amarillo, cardio rojo coral). El semáforo (éxito, aviso, peligro) tiene tokens propios. Todo en `tailwind.config.js` y `src/ui/colores.ts`.
-- **Tipografía**: Archivo (variable, con eje de ancho). Títulos y números expandidos (`.marcador`), texto en ancho normal.
-- **Animaciones de ejercicios** (`src/domain/animaciones.ts` + `src/ui/AnimacionEjercicio.tsx`): una figura articulada en SVG interpola entre poses clave; la parte que trabaja se pinta del color de su categoría y cada fase muestra su indicación. Hay 30 patrones de movimiento; los ejercicios nuevos usan uno según su grupo muscular.
-- **Didáctico**: glosario tocable (`<Termino>`), mapa del cuerpo por categoría (`MapaMuscular`), barra con los discos a cargar, escala de esfuerzo explicada, tarjetas "Cómo funciona" y lista de reglas en el editor de planes.
-- **Logros** (`src/domain/logros.ts`): 12 logros calculados del historial, con progreso visible.
-- **Festejo**: papelitos en canvas (`src/ui/Festejo.tsx`, `festejar()`), respetan "reducir movimiento".
-- **Sonido**: sintetizado con Web Audio (`src/lib/sonido.ts`), incluida la trompeta de victoria. Se silencia con el botón del parlante.
-
-## Estructura
-
-```
-src/domain/    tipos, clasificación y reglas del dominio (sin React; con tests)
-src/data/      semilla, almacén local y api.ts (casos de uso)
-src/features/  pantallas por rol
-src/ui/        componentes compartidos
+```powershell
+npm run start:dev
 ```
 
-## Sin backend todavía
+Queda en http://localhost:3010/api.
 
-Los datos viven en `localStorage` y se generan desde `src/data/semilla.ts`. El ingreso es de demostración:
-se elige un usuario de prueba. Para conectar el backend, reemplazá las funciones de `src/data/api.ts`
-(cada una es un caso de uso) y la lectura de `src/data/consultas.ts`. Las reglas de `src/domain/reglas.ts`
-conviene replicarlas en el back.
+**2. Front** (en otra terminal)
 
-En la pantalla de ingreso, "Restablecer datos de prueba" vuelve a la semilla.
+```powershell
+cd front
+npm install
+npm run dev
+```
+
+Abrí http://localhost:5174. En desarrollo, el front le pasa las llamadas a `/api` al back (proxy de Vite).
+
+### Sin MySQL
+
+Para probar rápido, en `back/.env` poné `DB_TIPO=sqljs`: la base vive en memoria y se pierde al cerrar el back.
+
+## Usuarios de prueba
+
+Todos con la contraseña `entrenar123` (se cambia con `SEMILLA_PASSWORD` en `back/.env`):
+
+| Email | Quién |
+|---|---|
+| martina@entrenamiento.test | Entrenadora |
+| lucia@entrenamiento.test | Alumna con plan e historial |
+| tomas@entrenamiento.test | Alumno que quiere bajar de peso |
+| valentina@entrenamiento.test | Alumna con plan |
+| joaquin@entrenamiento.test | Alumno nuevo, sin objetivo ni plan |
+| sofia@entrenamiento.test | Alumna con cuenta pero sin entrenador (para probar "vincular") |
+
+Para volver a los datos de prueba: `cd back` y `npm run seed` (borra todo y los carga de nuevo).
+
+## Tests
+
+```powershell
+cd back;  npm test     # reglas del dominio + API completa (base en memoria)
+cd front; npm test     # reglas, métricas, capa HTTP y flujos de pantallas
+```
+
+Más detalle en [back/README.md](back/README.md) y [front/README.md](front/README.md).
