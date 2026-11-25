@@ -4,7 +4,7 @@ NestJS 11 + TypeORM + MySQL, como el back del Proyecto 1. Prefijo de todas las r
 
 ## Configuración (`.env`)
 
-Copiá `.env.example` como `.env`. Lo mínimo es `DB_USERNAME`, `DB_PASSWORD` y `JWT_SECRET`.
+Lo más fácil: `npm run configurar`. Pregunta los datos de tu MySQL, prueba la conexión, crea la base y escribe `.env` con una `JWT_SECRET` al azar. A mano: copiá `.env.example` como `.env` y completá al menos `DB_USERNAME`, `DB_PASSWORD` y `JWT_SECRET`.
 
 | Variable | Para qué |
 |---|---|

@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "description": "API del MVP de entrenamiento físico (Proyecto 3)",
   "scripts": {
+    "configurar": "node scripts/configurar.mjs",
     "build": "nest build",
     "start": "node dist/main.js",
     "start:dev": "nest start --watch",

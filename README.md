@@ -16,10 +16,12 @@ Necesitás Node 20 o más y un MySQL corriendo.
 ```powershell
 cd back
 npm install
-copy .env.example .env
+npm run configurar
 ```
 
-Abrí `back/.env` y completá `DB_USERNAME` y `DB_PASSWORD` con los de tu MySQL (y `JWT_SECRET` con cualquier texto largo). La base `proyecto3_entrenamiento` se crea sola, con sus tablas y los datos de prueba, la primera vez que arranca:
+`npm run configurar` te pregunta el usuario y la contraseña de **tu** MySQL, prueba la conexión, crea la base `proyecto3_entrenamiento` y escribe `back/.env`. Ese archivo es de cada una (cada máquina tiene su MySQL), por eso no se sube al repo: cada integrante corre este comando una vez.
+
+Después levantá el back. La primera vez crea las tablas y carga los datos de prueba:
 
 ```powershell
 npm run start:dev
