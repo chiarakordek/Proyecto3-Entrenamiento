@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-tiza font-sans text-tinta antialiased;
+  }
+  /* Títulos con el ancho expandido de Archivo: aire de marcador deportivo. */
+  h1, h2, h3, .display {
+    font-stretch: 118%;
+    font-weight: 750;
+    letter-spacing: -0.015em;
+  }
+  :focus-visible {
+    outline: 3px solid #F7C04A;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer utilities {
+  .cifra {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  /* Números de marcador: anchos y pesados. */
+  .marcador {
+    font-stretch: 125%;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: -0.02em;
+  }
+  .angosto {
+    font-stretch: 88%;
+  }
+  .pb-seguro {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Única animación no disparada por el usuario: el anillo de récord personal. */
+@keyframes destello {
+  0% { box-shadow: 0 0 0 0 rgba(255, 200, 61, 0.75); }
+  100% { box-shadow: 0 0 0 16px rgba(255, 200, 61, 0); }
+}
+.destello {
+  animation: destello 1.2s ease-out 2;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.aparecer {
+  animation: aparecer 180ms ease-out;
+}
+
+/* Un disco que entra a la barra al cambiar el peso. */
+@keyframes cargar-disco {
+  from { opacity: 0; transform: translateX(var(--desde, 10px)) scaleY(0.85); }
+  to { opacity: 1; transform: none; }
+}
+.disco {
+  animation: cargar-disco 160ms ease-out;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Medalla nueva: entra girando con un pequeño rebote. */
+@keyframes medalla-entra {
+  0% { opacity: 0; transform: scale(0.3) rotate(-25deg); }
+  60% { opacity: 1; transform: scale(1.15) rotate(6deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+.medalla-entra {
+  animation: medalla-entra 650ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+/* Tarjetas que aparecen en cascada al festejar. */
+@keyframes subir {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+.subir {
+  animation: subir 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .destello, .aparecer, .disco, .medalla-entra, .subir { animation: none; }
+  * { scroll-behavior: auto !important; }
+}
